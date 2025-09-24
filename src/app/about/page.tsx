@@ -26,6 +26,11 @@ const milestones = [
     desc: "تقویت هستهٔ زبانی و آماده‌سازی برای سناریوهای سازمانی و آفلاین.",
   },
   {
+    year: "۱۴۰۲",
+    title: "نسخه وب و تیمی",
+    desc: "راه‌اندازی نسخه وب و ارائه امکانات تیمی و سازمانی برای استفاده گسترده‌تر.",
+  },
+  {
     year: "امروز",
     title: "همراه شما",
     desc: "دریافت بازخورد، بهبود سرویس و توسعه نسخه‌های تحت وب و سازمانی.",
@@ -79,6 +84,15 @@ function MilestoneIcon({ index }: { index: number }) {
           <rect x="4" y="14" width="16" height="6" rx="2" />
           <path d="M8 7h.01M8 17h.01" />
           <path d="M12 7h6M12 17h6" />
+        </svg>
+      );
+    case 3: // نسخه وب و تیمی
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 9h18" />
+          <path d="M8 7h.01M12 7h.01M16 7h.01" />
+          <path d="M8 16h8" />
         </svg>
       );
     default: // همراه شما
@@ -227,74 +241,178 @@ export default function AboutPage() {
             </div>
 
             <div className="relative mt-10">
-              {/* خط افقی پایین (فقط از lg به بالا تا بهم نریزه وقتی کارت‌ها چند ردیف می‌شن) */}
-              <div className="pointer-events-none hidden lg:block absolute left-0 right-0 bottom-8 h-px bg-[#001A4B]" />
+  {/* ✅ MOBILE/TABLET (<lg) — عمودی + کارت چسبیده به خط قرمز */}
+<div className="lg:hidden [--rail:28px] [--conn:42px] [--gutter:calc(var(--rail)+var(--conn)+48px)]">
+  <ol
+    className="
+      relative mx-auto max-w-3xl px-4
+      before:content-[''] before:absolute
+      before:left-[var(--rail)] before:top-0 before:bottom-0
+      before:w-[2px] before:bg-[#001A4B]
+      space-y-10
+    "
+  >
+    {/* فلش پایین کنار خط (مثل عکس) */}
+    <div className="pointer-events-none absolute left-[var(--rail)] -top-6 -translate-x-1/2">
+      <svg
+        className="h-6 w-6 text-[#001A4B]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 5v14" />
+        <path d="M7 14l5 5 5-5" />
+      </svg>
+    </div>
 
-              {/* فلش انتهای خط */}
-              <div className="pointer-events-none hidden lg:block absolute right-0 bottom-8 -translate-y-1/2">
-                <svg
-                  className="h-5 w-5 text-[#001A4B]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M20 12H6" />
-                  <path d="M10 8l-4 4 4 4" />
-                </svg>
+    {milestones.map((item, idx) => (
+      <li
+        key={`${item.year}-${idx}`}
+        className="grid grid-cols-[calc(var(--rail)+var(--conn))_1fr] items-center"
+      >
+        {/* ستون چپ: نقطه + کانکتور + خط قرمز (لبه‌ی ستون) */}
+        <div className="relative h-[240px]">
+          {/* نقطه روی ریل */}
+          <span
+            className="
+              absolute left-[var(--rail)] top-1/2
+              -translate-x-1/2 -translate-y-1/2
+              h-3 w-3 rounded-full bg-[#001A4B]
+            "
+          />
+          {/* کانکتور تا مرز ستون */}
+          <span
+            className="
+              absolute left-[var(--rail)] top-1/2
+              -translate-y-1/2
+              h-px w-[calc(100%-var(--rail))] bg-[#001A4B]
+            "
+          />
+          {/* خط قرمز دقیقاً روی مرز ستون => کارت می‌چسبه */}
+          <span
+            className="
+              absolute right-0 top-1/2
+              -translate-y-1/2
+              h-10 w-[2px] bg-red-600
+            "
+          />
+        </div>
+
+        {/* ستون راست: کارت (بدون gap => چسبیده به خط قرمز) */}
+        <div className="justify-self-start">
+          <div className="w-[min(340px,calc(100vw-var(--gutter)))]">
+            <div
+              className="
+                relative h-[240px] w-full
+                rounded-[18px]
+                border border-slate-200/80
+                bg-gradient-to-b from-slate-50 to-white
+                shadow-[0_18px_44px_rgba(15,23,42,0.08)]
+                px-5 py-4
+                flex flex-col items-center justify-between
+              "
+              style={{
+                fontFamily: "IRANYekanXFaNum, Vazirmatn, system-ui, sans-serif",
+              }}
+            >
+              <div className="w-full text-center">
+                <div className="text-xl font-extrabold text-slate-700">{item.year}</div>
+                <div className="mx-auto mt-2 h-px w-28 bg-red-600" />
               </div>
 
-              {/* کارت‌ها */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-end">
-                {milestones.map((item, idx) => (
-                  <div key={item.year} className="min-w-0 flex flex-col items-center h-full">
-                    <div
-                      className="
-                        relative w-full h-[240px]
-                        px-4 py-3
-                        flex flex-col items-center justify-between
-                        bg-[linear-gradient(180deg,rgba(0,26,75,.05),rgba(0,5,15,0))]
-                        rounded-lg border border-[#e1e1e1]
-                        outline-none
-                      "
-                      style={{ fontFamily: "IRANYekanXFaNum, Vazirmatn, system-ui, sans-serif" }}
-                    >
-                      <div className="w-full text-center">
-                        <div className="text-xl font-extrabold text-slate-700">
-                          {item.year}
-                        </div>
-                        <div className="mx-auto mt-2 h-px w-24 bg-red-600" />
-                      </div>
+              <div className="flex justify-center">
+                <MilestoneIcon index={idx} />
+              </div>
 
-                      <div className="flex justify-center">
-                        <MilestoneIcon index={idx} />
-                      </div>
-
-                      <div className="text-center">
-                        <div className="text-[16px] font-extrabold leading-7 text-[#001A4B]">
-                          {item.title}
-                        </div>
-                        <div className="mt-2 text-xs text-slate-600 leading-6">
-                          {item.desc}
-                        </div>
-                      </div>
-
-                      {/* خط قرمز پایین (چسبیده به connector) */}
-                      <div className="absolute left-1/2 -translate-x-1/2 -bottom-px h-px w-16 bg-red-600" />
-                    </div>
-
-                    {/* connector (فقط lg به بالا) */}
-                    <div className="hidden lg:block relative h-[72px] w-full">
-                      <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[34px] w-px bg-[#001A4B]" />
-                      <div className="absolute left-1/2 top-[34px] -translate-x-1/2 h-3 w-3 rounded-full bg-[#001A4B]" />
-                    </div>
-                  </div>
-                ))}
+              <div className="text-center">
+                <div className="text-[18px] font-extrabold text-[#001A4B] leading-7">
+                  {item.title}
+                </div>
+                <div className="mt-2 text-sm text-slate-600 leading-7">
+                  {item.desc}
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+
+  {/* =========================
+      ✅ DESKTOP (lg+) — افقی (کد خودت)
+     ========================= */}
+  <div className="hidden lg:block">
+    <div className="pointer-events-none absolute left-0 right-0 bottom-8 h-px bg-[#001A4B]" />
+
+    <div className="pointer-events-none absolute right-0 bottom-8 -translate-y-1/2">
+      <svg
+        className="h-5 w-5 text-[#001A4B]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M20 12H6" />
+        <path d="M10 8l-4 4 4 4" />
+      </svg>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-end">
+      {milestones.map((item, idx) => (
+        <div key={item.year} className="min-w-0 flex flex-col items-center h-full">
+          <div
+            className="
+              relative w-full h-[240px]
+              px-4 py-3
+              flex flex-col items-center justify-between
+              bg-[linear-gradient(180deg,rgba(0,26,75,.05),rgba(0,5,15,0))]
+              rounded-lg border border-[#e1e1e1]
+              outline-none
+            "
+            style={{ fontFamily: "IRANYekanXFaNum, Vazirmatn, system-ui, sans-serif" }}
+          >
+            <div className="w-full text-center">
+              <div className="text-xl font-extrabold text-slate-700">{item.year}</div>
+              <div className="mx-auto mt-2 h-px w-24 bg-red-600" />
+            </div>
+
+            <div className="flex justify-center">
+              <MilestoneIcon index={idx} />
+            </div>
+
+            <div className="text-center">
+              <div className="text-[16px] font-extrabold leading-7 text-[#001A4B]">
+                {item.title}
+              </div>
+              <div className="mt-2 text-xs text-slate-600 leading-6">
+                {item.desc}
+              </div>
+            </div>
+
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-px h-px w-16 bg-red-600" />
+          </div>
+
+          <div className="relative h-[72px] w-full">
+            <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[34px] w-px bg-[#001A4B]" />
+            <div className="absolute left-1/2 top-[34px] -translate-x-1/2 h-3 w-3 rounded-full bg-[#001A4B]" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+
           </section>
         </div>
       </div>
@@ -306,6 +424,6 @@ function Badge({ children }: { children: ReactNode }) {
   return (
     <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-emerald-700 border border-emerald-100 shadow-sm">
       {children}
-    </span>
+    </span> 
   );
 }
